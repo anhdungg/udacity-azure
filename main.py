@@ -87,7 +87,7 @@ else:
     title = app.config['TITLE']
 
 # Redis configurations
-redis_server = os.environ['REDIS']
+# redis_server = os.environ['REDIS']
 
 # Redis Connection
 try:
@@ -119,12 +119,12 @@ def index():
     if request.method == 'GET':
 
         # Get current values
-        vote1 = r.get(button1).decode('utf-8')
+        vote1 = r.get(button1)
         
         # use tracer object to trace cat vote
         tracer.span(name="Cats")
         
-        vote2 = r.get(button2).decode('utf-8')
+        vote2 = r.get(button2)
         # use tracer object to trace dog vote
         tracer.span(name="Dogs")
 
@@ -139,12 +139,12 @@ def index():
             r.set(button1,0)
             r.set(button2,0)
 
-            vote1 = r.get(button1).decode('utf-8')
+            vote1 = r.get(button1)
             properties = {'custom_dimensions': {'Cats Vote': vote1}}
             # use logger object to log cat vote
             logger.info("Cats", extra=properties)
 
-            vote2 = r.get(button2).decode('utf-8')
+            vote2 = r.get(button2)
             properties = {'custom_dimensions': {'Dogs Vote': vote2}}
             # TODO: use logger object to log dog vote
             logger.info("Dogs", extra=properties)
@@ -158,12 +158,12 @@ def index():
             r.incr(vote,1)
 
             # Get current values
-            vote1 = r.get(button1).decode('utf-8')
+            vote1 = r.get(button1)
             properties = {'custom_dimensions': {'Cats Vote': vote1}}
             #use logger object to log cat vote
             logger.info('Cats Vote', extra=properties)
 
-            vote2 = r.get(button2).decode('utf-8')
+            vote2 = r.get(button2)
             properties = {'custom_dimensions': {'Dogs Vote': vote2}}
             #use logger object to log dog vote
             logger.info('Dogs Vote', extra=properties)  
