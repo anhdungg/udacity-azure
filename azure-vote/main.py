@@ -87,16 +87,16 @@ else:
     title = app.config['TITLE']
 
 # Redis configurations
-# redis_server = os.environ['REDIS']
+redis_server = os.environ['REDIS']
 
 # Redis Connection
 try:
-    # if "REDIS_PWD" in os.environ:
-    #     r = redis.StrictRedis(host=redis_server,
-    #                     port=6379,
-    #                     password=os.environ['REDIS_PWD'])
-    # else:
-    r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+    if "REDIS_PWD" in os.environ:
+        r = redis.StrictRedis(host=redis_server,
+                        port=6379,
+                        password=os.environ['REDIS_PWD'])
+    else:
+        r = redis.Redis(redis_server)
     r.ping()
 except redis.ConnectionError:
     exit('Failed to connect to Redis, terminating.')
